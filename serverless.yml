@@ -1,0 +1,30 @@
+service: referencing
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-west-1
+  iam:
+    role: arn:aws:iam::489034307864:role/serverless-reference-dynamo-testing
+
+package:
+  exclude:
+    - layers/**
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /user
+          method: post
+    layers:
+      - 'Fn::ImportValue': middyDependencie
