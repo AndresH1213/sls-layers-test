@@ -1,11 +1,7 @@
 service: referencing
-# app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
 frameworkVersion: '3'
+plugins:
+  - serverless-esbuild
 
 provider:
   name: aws
@@ -15,16 +11,17 @@ provider:
   iam:
     role: arn:aws:iam::489034307864:role/serverless-reference-dynamo-testing
 
-package:
-  exclude:
-    - layers/**
+layers:
+  services:
+    path: services/
 
 functions:
   hello:
-    handler: handler.hello
+    handler: src/hello.handler
     events:
       - httpApi:
-          path: /user
-          method: post
+          path: /hello
+          method: get
     layers:
-      - 'Fn::ImportValue': middyDependencie
+      # - !Ref ServicesLambdaLayer
+      - arn:aws:lambda:${self:provider.region}:${aws:accountId}:layer:services:6
