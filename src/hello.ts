@@ -3,7 +3,7 @@ import {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
 } from 'aws-lambda';
-import Tower from '/opt/services/models';
+import Tower from '/opt/nodejs/services/models';
 
 export const handler: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent

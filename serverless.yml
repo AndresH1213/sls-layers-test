@@ -1,7 +1,13 @@
 service: referencing
+
 frameworkVersion: '3'
+
 plugins:
   - serverless-esbuild
+
+custom:
+  esbuild:
+    config: './esbuild.config.js'
 
 provider:
   name: aws
@@ -13,7 +19,7 @@ provider:
 
 layers:
   services:
-    path: services/
+    path: build/services
 
 functions:
   hello:
@@ -23,5 +29,4 @@ functions:
           path: /hello
           method: get
     layers:
-      # - !Ref ServicesLambdaLayer
-      - arn:aws:lambda:${self:provider.region}:${aws:accountId}:layer:services:6
+      - !Ref ServicesLambdaLayer
